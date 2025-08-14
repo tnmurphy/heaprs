@@ -7,31 +7,39 @@ fn right_child(item: usize)->usize {
 }
 
 fn sort(array: &mut Vec<i32>) {
-    let mut range = array.len();
+    let range = array.len();
 
-    let tail = range >> 1;
-    range = range - tail;
     for item in 0usize..range {
         let lc = left_child(item);
-        if array[item]> array[lc] {
-            let temp = array[lc];
-            array[lc] = array[item];
-            array[item] = temp;
+        if lc < range {
+          if array[item] > array[lc] {
+              array.swap(item,lc);
+          }
+        }
+        let rc = right_child(item);
+        if rc < range {
+          if array[item] > array[rc] {
+            array.swap(item,rc);
+          }
         }
     }
 }
 
 fn main() {
-  let mut a = vec!(1i32, 2, 4, 6, 3);
+  let a = vec!(1i32, 4,3,2);
+  let mut b:Vec<i32> = Vec::<i32>::with_capacity(20);
 
   for item in &a {
      println!("{}",item);
   }
 
-  sort(&mut a);
-  println!("Sorted");
-    for item in &a {
-        println!("{}", item);
-    }
+  for item in &a {
+      b.push(*item);
+      sort(&mut b);
+      println!("Inserted {}", item);
+      for item2 in &b {
+        println!("{}", item2);
+      }
+  }
 }
 
