@@ -3,13 +3,13 @@
 // (c) T N Murphy.  This software is in the Public Domain
 
 
-struct Heap {
+pub struct Heap {
     array: Vec<i32>,
 }
 
 
 impl Heap {
-    fn sortup(&mut self) {
+    pub fn sortup(&mut self) {
         let mut index = self.array.len() - 1;
 
         while index > 0 {
@@ -21,13 +21,13 @@ impl Heap {
         }
     }
 
-    fn add(&mut self, item: i32) {
+    pub fn add(&mut self, item: i32) {
 
         self.array.push(item);
         self.sortup();
     }
 
-    fn pop(&mut self) -> i32 {
+    pub fn pop(&mut self) -> i32 {
         let end = self.array.len();
 
         //          0
@@ -63,25 +63,34 @@ impl Heap {
     }
 }
 
-fn main() {
-    let h = &mut Heap { array: Vec::<i32>::with_capacity(20) };
+#[cfg(test)]
+mod test {
 
-    let a = vec![1i32, 4, 7, 1, 9, 12, 10, 3, 2, 8, 7];
-    println!("The unsorted list:");
-    for item in &a {
-        println!("{}", item);
-    }
+    use ::Heap;
 
-    for item in &a {
-        println!("Insertng {}", item);
-        h.add(*item);
-        for item2 in &h.array {
-            println!("{}", item2);
+    #[test]
+    fn basic() {
+        let h = &mut Heap { array: Vec::<i32>::with_capacity(20) };
+        let numbers = vec![1i32, 4, 7, 1, 9, 12, 10, 3, 2, 8, 7];
+        let sorted_numbers = vec![1i32, 1, 2, 3, 4, 7, 7, 8, 9, 10, 12];
+        println!("The unsorted list:");
+        for item in &numbers {
+            println!("{}", item);
         }
-    }
-    println!("Now popping in order");
-    for _ in 0..h.array.len() {
-        let item = h.pop();
-        println!("{}", item);
+
+        for item in &numbers {
+            println!("Insertng {}", item);
+            h.add(*item);
+            for item2 in &h.array {
+                println!("{}", item2);
+            }
+        }
+        println!("Now popping in order");
+        for index in 0..h.array.len() {
+            let item = h.pop();
+            let expected = sorted_numbers[index];
+            println!("{}-{}", item, expected);
+            assert_eq!(item, expected);
+        }
     }
 }
