@@ -1,5 +1,5 @@
 // heap sort 
-// Copyright (c) 2024 Timothy Norman Murphy
+// Copyright (c) 2025 Timothy Norman Murphy
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -24,12 +24,12 @@
 // 
 
 
-pub struct Heap {
-    array: Vec<i32>,
+pub struct Heap<T> {
+    array: Vec<T>,
 }
 
 
-impl Heap {
+impl<T: std::fmt::Display + Ord + Copy + Eq> Heap<T> {
     pub fn sortup(&mut self) {
         let mut index = self.array.len();
         if index == 0 { return; }
@@ -63,13 +63,13 @@ impl Heap {
         println!("\n------\n");
     }
 
-    pub fn add(&mut self, item: i32) {
+    pub fn add(&mut self, item: T) {
 
         self.array.push(item);
         self.sortup();
     }
 
-    pub fn pop(&mut self) -> i32 {
+    pub fn pop(&mut self) -> T {
         let end = self.array.len()-1;
 
         //             0
@@ -124,12 +124,12 @@ mod test {
     extern crate rand;
     use std::vec::Vec;
 
-    fn check_order(numbers: &[i32], expected: &[i32]) {
-        let h = &mut Heap { array: Vec::<i32>::with_capacity(numbers.len()+1) };
+    fn check_order<T: std::fmt::Display + std::fmt::Debug>(items: &[T], expected: &[T]) where T: Copy, T: Eq, T: Ord {
+        let h = &mut Heap { array: Vec::<T>::with_capacity(items.len()+1) };
         
 
         // Push the input onto the heap
-        for item in numbers {
+        for item in items {
             println!("----push {}", item);
             h.print();
             h.add(*item);
@@ -222,6 +222,13 @@ mod test {
          let numbers = vec![8,6,7,5,2,3,4,1];
          let sorted_numbers = vec![1,2,3,4,5,6,7,8];
          check_order(&numbers, &sorted_numbers);
+     }
+
+     #[test]
+     fn stringsort() {
+        let names = ["Zane", "John", "Alice", "Catherine", "Mercedes", "Bob"];
+        let sorted_names = ["Alice", "Bob", "Catherine", "John", "Mercedes", "Zane"];
+        check_order(&names, &sorted_names);
      }
 
      #[test]
