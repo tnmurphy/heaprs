@@ -73,7 +73,6 @@ impl Heap {
             if right_child >= end {
                 if self.array[parent] > self.array[left_child] {
                     self.array.swap(parent, left_child);
-                    parent = left_child;
                 }
                 break;
             }
@@ -206,11 +205,10 @@ mod test {
 
      #[test]
      fn random1() {
-         let rng = rand::rng();
-         let mut numbers = [0i32; 40];
+         let mut numbers = [0i32; 4000];
          rand::fill(&mut numbers);
          for i in 0..numbers.len() {
-             numbers[i] %= 10000;
+             numbers[i] %= 100000;
              numbers[i] = numbers[i].abs();
          }
          let mut sorted_numbers = numbers.clone();
