@@ -2,6 +2,11 @@
 name = "heap"
 version = "0.0.1"
 
+[[bin]]
+name = "heapserver"
+test = true
+path = "src/server.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
 test = true
@@ -10,4 +15,5 @@ path = "src/heap.rs"
 
 [dependencies]
 rand = "0.9.2"
+rocket = "0.5.1"
 
